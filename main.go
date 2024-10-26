@@ -19,8 +19,6 @@ func main() {
 
 		if name != "" {
 			go func() {
-				log.Printf("Found device: %s", name)
-
 				exists := false
 
 				for _, addr := range conns {
@@ -35,10 +33,11 @@ func main() {
 						ConnectionTimeout: bluetooth.NewDuration(time.Duration(time.Second * 1)),
 						Timeout:           bluetooth.NewDuration(time.Duration(time.Second * 1)),
 					})
-					if err != nil {
+
+					if err == nil {
+						log.Printf("Found device: %s - %s", name, device.Address)
 						conns = append(conns, res.Address.String())
 					}
-
 				}
 			}()
 		}
